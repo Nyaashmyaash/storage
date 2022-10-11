@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_NAME" value="storage"/>
+    <property name="LOG_PATH" value="logs"/>
+    <property name="LOG_FILE" value="${LOG_PATH}/spring.log"/>
+    <property name="PATTERN" value="%d{dd.MM.yyyy HH:mm:ss} [%t] [%-5p] %32.32c - %m%n"/>
+    <property name="ROTATE_SUFFIX" value="%d{yyyyMMdd_HH}_%i.gz"/>
+    <property name="MAX_HISTORY" value="720"/>
+    <property name="MAX_FILE_SIZE" value="512MB"/>
+    <property name="TOTAL_SIZE_CAP" value="8GB"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+    <include resource="com/cdek/platform/logging/logback/access/jetty-access-file-appender.xml"/>
+
+
+    <appender name="APP_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/main/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/main/${APP_NAME}.${ROTATE_SUFFIX}</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.eclipse.jetty.server.RequestLog" level="INFO" additivity="false">
+        <appender-ref ref="ACCESS"/>
+    </logger>
+
+    <logger level="INFO" name="*" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="APP_FILE"/>
+    </root>
+</configuration>

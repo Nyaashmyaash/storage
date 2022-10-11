@@ -1,0 +1,61 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.cdek.platform</groupId>
+        <artifactId>platform-template-starter-parent</artifactId>
+        <version>2.4.9-148</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.cdek.storage</groupId>
+    <artifactId>storage-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>storage-parent</name>
+
+    <modules>
+        <module>storage-client</module>
+        <module>storage</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <repositories>
+                <repository>
+                    <id>cdek-snapshots</id>
+                    <url>https://repo.cdek.ru/repository/cdek-snapshots/</url>
+                </repository>
+                <repository>
+                    <id>cdek-release</id>
+                    <url>https://repo.cdek.ru/repository/cdek-releases/</url>
+                </repository>
+                <repository>
+                    <id>other</id>
+                    <url>https://repo.cdek.ru/repository/other/</url>
+                </repository>
+                <repository>
+                    <id>old-repo</id>
+                    <url>https://repo.cdek.ru/repository/test1/</url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>quality-gate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
